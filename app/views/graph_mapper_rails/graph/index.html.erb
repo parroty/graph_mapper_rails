@@ -1,0 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
+  <%= javascript_include_tag "graph_mapper_rails/highcharts.js" %>
+<% end %>
+
+<h1>Graph </h1>
+<%= high_chart("my_id1", @chart) %>

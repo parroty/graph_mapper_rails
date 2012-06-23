@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GraphMapperRails</title>
+  <%= stylesheet_link_tag    "graph_mapper_rails/application", :media => "all" %>
+  <%= javascript_include_tag "graph_mapper_rails/application" %>
+  <%= csrf_meta_tags %>
+
+  <%= yield :head %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
