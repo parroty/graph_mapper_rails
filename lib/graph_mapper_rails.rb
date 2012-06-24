@@ -16,61 +16,44 @@ module GraphMapperRails
     attr_accessor :klass, :duration, :use_average, :colors
 
     def set_options(&block)
-      option_mapper = OptionMapper.new
-      yield option_mapper
-      @options = option_mapper.hash
+      @option_mapper = OptionMapper.new
+      yield @option_mapper
+    end
+
+    def get_options
+      @option_mapper.to_hash
     end
 
     def set_mapper(&block)
       @block = block
     end
 
-    def mapper(keyword = nil)
+    def get_mapper(keyword = nil)
       manager = @klass.all
 
-      GraphMapper::Mapper.new(manager, DateTime.now - @duration, DateTime.now, @options) do | record |
+      GraphMapper::Mapper.new(manager, DateTime.now - @duration, DateTime.now, @option_mapper.to_hash) do | record |
         record_mapper = RecordMapper.new
         record_mapper.keyword = keyword
         @block.call(record_mapper, record)
-        record_mapper.hash
+        record_mapper.to_hash
       end
-    end
-
-    def moving_average_length
-      @options[:moving_average_length]
     end
   end
 
   class OptionMapper
-    def initialize
-      @hash = Hash.new
-    end
+    attr_accessor :span_type, :date_format, :moving_average_length
 
-    def span_type=(span_type)
-      @hash[:span_type] = span_type
-    end
-
-    def date_format=(date_format)
-      @hash[:date_format] = date_format
-    end
-
-    def moving_average_length=(length)
-      @hash[:moving_average_length] = length
-    end
-
-    def hash
-      @hash
+    def to_hash
+      { :span_type => @span_type, :date_format => @date_format,
+        :moving_average_length => @moving_average_length }
     end
   end
 
   class RecordMapper
     attr_accessor :keyword, :key, :num
 
-    def hash
-      @hash = Hash.new
-      @hash[:key]   = @key
-      @hash[:value] = @num || 0
-      @hash
+    def to_hash
+      { :key => @key, :value => @num || 0 }
     end
   end
 end
