@@ -35,7 +35,7 @@ module GraphMapperRails
     def get_mapper(keyword = nil)
       manager = @klass.find(:all, @conditions)
 
-      GraphMapper::Mapper.new(manager, DateTime.now - @duration, DateTime.now, @option_mapper.to_hash) do | record |
+      GraphMapper::Mapper.new(manager, Date.today - @duration, Date.today, @option_mapper.to_hash) do | record |
         rm = RecordMapper.new
         rm.keyword = keyword
         @block.call(rm, record)

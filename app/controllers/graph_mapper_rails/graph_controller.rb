@@ -14,14 +14,16 @@ module GraphMapperRails
 
       if @klass.respond_to?(:graph_keywords)
         @klass.graph_keywords.each do | keyword |
-          m = config.get_mapper(keyword)
-          c = GraphAdapter::Highchart.new({:title => keyword}).get_charts
+          m  = config.get_mapper(keyword)
+          hc = GraphAdapter::Highchart.new({:title => keyword})
+          hc.data(:name => "Graph", :key => m.keys, :value => m.values, :color => config.colors[:line])
+          c = hc.get_charts
 
           c.chart(:defaultSeriesType => "line", :height => 250, :borderRadius => 1)
           c.plotOptions(:series => {:animation => false})
-          c.xAxis(:categories => m.keys, :tickInterval => 2)
 
-          c.series(:name => keyword, :yAxis => 0, :data => m.values, :color => config.colors[:line])
+          # c.xAxis(:categories => m.keys, :tickInterval => 2)
+          # c.series(:name => keyword, :yAxis => 0, :data => m.values, :color => config.colors[:line])
 
           if config.use_average
             c.series(:name => "average", :yAxis => 0, :data => [[0, m.average],[m.keys.size - 1, m.average]],
