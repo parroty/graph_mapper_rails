@@ -16,5 +16,6 @@ gem "jquery-rails"
 # To use debugger
 # gem 'debugger'
 
+gem 'rails', '3.1.1'
 gem "lazy_high_charts", "~> 1.1.5"
 gem "graph_mapper", :git => 'git@github.com:parroty/graph_mapper.git', :branch => 'master'
