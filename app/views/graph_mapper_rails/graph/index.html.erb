@@ -4,4 +4,7 @@
 <% end %>
 
 <h1>Graph </h1>
-<%= high_chart("my_id1", @chart) %>
+
+<% @charts.each_with_index do | chart, index | %>
+  <%= high_chart("my_id#{index}", chart) %>
+<% end %>

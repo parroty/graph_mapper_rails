@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:parroty/graph_mapper.git
-  revision: 370208a17696d0a072b363c72104aed1e112df4e
+  revision: 23ccfbbbc105f189d7bcbbe4f225ed1aae561edc
   branch: master
   specs:
     graph_mapper (0.1.0)
