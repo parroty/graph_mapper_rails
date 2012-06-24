@@ -7,11 +7,11 @@ require "graph_mapper_rails/version"
 Gem::Specification.new do |s|
   s.name        = "graph_mapper_rails"
   s.version     = GraphMapperRails::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of GraphMapperRails."
-  s.description = "TODO: Description of GraphMapperRails."
+  s.authors     = ["parroty"]
+  s.email       = ["parroty00@gmail.com"]
+  s.homepage    = "http://www.example.com"
+  s.summary     = "rails plugin for graph mapper"
+  s.description = "rails plugin for graph mapper"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
