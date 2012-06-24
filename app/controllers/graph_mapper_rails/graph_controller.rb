@@ -9,28 +9,37 @@ module GraphMapperRails
       config = Initializer.config
 
       @charts = []
-      @klass_name = config.klass
-      @klass_name.graph_keywords.each do | keyword |
-        m = config.get_mapper(keyword)
-        c = GraphAdapter::Highchart.new({:title => keyword}).get_charts
+      @klass  = config.klass
 
-        c.chart(:defaultSeriesType => "line", :height => 250, :borderRadius => 1)
-        c.plotOptions(:series => {:animation => false})
-        c.xAxis(:categories => m.keys, :tickInterval => 2)
+      if @klass.respond_to?(:graph_keywords)
+        @klass.graph_keywords.each do | keyword |
+          m = config.get_mapper(keyword)
+          c = GraphAdapter::Highchart.new({:title => keyword}).get_charts
 
-        c.series(:name => keyword, :yAxis => 0, :data => m.values, :color => config.colors[:line])
+          c.chart(:defaultSeriesType => "line", :height => 250, :borderRadius => 1)
+          c.plotOptions(:series => {:animation => false})
+          c.xAxis(:categories => m.keys, :tickInterval => 2)
 
-        if config.use_average
-          c.series(:name => "average", :yAxis => 0, :data => [[0, m.average],[m.keys.size - 1, m.average]],
-                   :color => config.colors[:average])
+          c.series(:name => keyword, :yAxis => 0, :data => m.values, :color => config.colors[:line])
+
+          if config.use_average
+            c.series(:name => "average", :yAxis => 0, :data => [[0, m.average],[m.keys.size - 1, m.average]],
+                     :color => config.colors[:average])
+          end
+
+          if config.get_options[:moving_average_length]
+            c.series(:name => "moving average", :yAxis => 0, :data => m.moving_average,
+                     :dashStyle => 'ShortDash', :color => config.colors[:moving_average])
+          end
+
+          if @klass.respond_to?(:graph_series)
+            if series = @klass.graph_series(keyword, m.keys.size)
+              c.series(:name => series[:name], :yAxis => 0, :data => series[:data], :color => series[:color])
+            end
+          end
+
+          @charts << c
         end
-
-        if config.get_options[:moving_average_length]
-          c.series(:name => "moving average", :yAxis => 0, :data => m.moving_average,
-                   :dashStyle => 'ShortDash', :color => config.colors[:moving_average])
-        end
-
-        @charts << c
       end
 
       @charts
