@@ -32,10 +32,10 @@ module GraphMapperRails
       manager = @klass.all
 
       GraphMapper::Mapper.new(manager, DateTime.now - @duration, DateTime.now, @option_mapper.to_hash) do | record |
-        record_mapper = RecordMapper.new
-        record_mapper.keyword = keyword
-        @block.call(record_mapper, record)
-        record_mapper.to_hash
+        rm = RecordMapper.new
+        rm.keyword = keyword
+        @block.call(rm, record)
+        rm.to_hash
       end
     end
   end
