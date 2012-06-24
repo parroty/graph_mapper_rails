@@ -1,6 +1,6 @@
 <% content_for :head do %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
-  <%= javascript_include_tag "graph_mapper_rails/highcharts.js" %>
+  <%= javascript_include_tag @highcharts_js_path %>
 <% end %>
 
 <h1>Class : <%= @klass %></h1>

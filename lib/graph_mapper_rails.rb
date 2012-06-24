@@ -13,7 +13,11 @@ module GraphMapperRails
   end
 
   class Config
-    attr_accessor :klass, :duration, :use_average, :colors
+    attr_accessor :klass, :duration, :use_average, :colors, :highcharts_js_path
+
+    def initialize
+      @highcharts_js_path = "graph_mapper_rails/highcharts.js"
+    end
 
     def set_options(&block)
       @option_mapper = OptionMapper.new

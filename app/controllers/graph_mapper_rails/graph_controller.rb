@@ -9,6 +9,7 @@ module GraphMapperRails
       config = Initializer.config
 
       @charts = []
+      @highcharts_js_path = config.highcharts_js_path
       @klass  = config.klass
 
       if @klass.respond_to?(:graph_keywords)
