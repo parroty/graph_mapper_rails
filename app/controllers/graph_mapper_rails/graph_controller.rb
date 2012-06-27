@@ -10,10 +10,10 @@ module GraphMapperRails
 
       @charts = []
       @highcharts_js_path = config.highcharts_js_path
-      @klass  = config.klass
+      @klass  = config.mapper_klass
 
-      if @klass.respond_to?(:graph_keywords)
-        @klass.graph_keywords.each do | keyword |
+      if @klass.respond_to?(:from_graph_mapper_keywords)
+        @klass.from_graph_mapper_keywords.each do | keyword |
           m  = config.get_mapper(keyword)
           hc = GraphAdapter::Highchart.new({:title => keyword})
           c  = hc.get_charts
@@ -34,8 +34,8 @@ module GraphMapperRails
                      :dashStyle => 'ShortDash', :color => config.colors[:moving_average])
           end
 
-          if @klass.respond_to?(:graph_series)
-            if series = @klass.graph_series(keyword, m.keys.size)
+          if @klass.respond_to?(:from_graph_mapper_series)
+            if series = @klass.from_graph_mapper_series(keyword, m.keys.size)
               c.series(:name => series[:name], :yAxis => 0, :data => series[:data], :color => series[:color])
             end
           end

@@ -13,7 +13,7 @@ module GraphMapperRails
   end
 
   class Config
-    attr_accessor :klass, :conditions, :duration, :use_average, :colors, :highcharts_js_path
+    attr_accessor :mapper_klass, :conditions, :duration, :use_average, :colors, :highcharts_js_path
 
     def initialize
       @highcharts_js_path = "graph_mapper_rails/highcharts.js"
@@ -33,7 +33,7 @@ module GraphMapperRails
     end
 
     def get_mapper(keyword = nil)
-      manager = @klass.find(:all, @conditions)
+      manager = @mapper_klass.find(:all, @conditions)
 
       GraphMapper::Mapper.new(manager, Date.today - @duration, Date.today, @option_mapper.to_hash) do | record |
         rm = RecordMapper.new
