@@ -2,7 +2,7 @@ class Sample < ActiveRecord::Base
   attr_accessible :description, :title
 
   def self.from_graph_mapper_keywords
-    ["aaa", "title"]
+    ["aaa", "title", "hoge"]
   end
 
   def self.from_graph_mapper_series(keyword, length)
