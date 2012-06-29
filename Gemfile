@@ -19,3 +19,9 @@ gem "jquery-rails"
 gem 'rails', '3.2.6'
 gem "lazy_high_charts", "~> 1.1.5"
 gem "graph_mapper", :git => 'git@github.com:parroty/graph_mapper.git', :branch => 'master'
+
+group :development, :test do
+  gem "rspec", "~> 2.8.0"
+  gem "rspec-rails", "~> 2.8.1"
+  # gem 'factory_girl_rails'
+end
