@@ -17,6 +17,7 @@ module GraphMapperRails
 
     def initialize
       @highcharts_js_path = "graph_mapper_rails/highcharts.js"
+      @duration           = 1.month
     end
 
     def set_options(&block)

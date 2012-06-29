@@ -23,5 +23,5 @@ gem "graph_mapper", :git => 'git@github.com:parroty/graph_mapper.git', :branch =
 group :development, :test do
   gem "rspec", "~> 2.8.0"
   gem "rspec-rails", "~> 2.8.1"
-  # gem 'factory_girl_rails'
+  gem 'factory_girl_rails'
 end
