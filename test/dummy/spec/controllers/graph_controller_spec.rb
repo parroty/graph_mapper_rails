@@ -22,7 +22,8 @@ describe GraphController do
       get :index
 
       response.should be_success
-      assigns(:charts).size.should == Sample.from_graph_mapper_keywords.size
+      assigns(:pie_charts).size.should == 1
+      assigns(:line_charts).size.should == Sample.from_graph_mapper_keywords.size
     end
 
     it "should show index page - no from_graph_mapper_keywords" do
@@ -33,7 +34,7 @@ describe GraphController do
       get :index
 
       response.should be_success
-      assigns(:charts).size.should == 0
+      assigns(:line_charts).size.should == 0
     end
 
     it "should show index page - no from_graph_mapper_series" do
@@ -44,7 +45,7 @@ describe GraphController do
       get :index
 
       response.should be_success
-      assigns(:charts).size.should == Sample.from_graph_mapper_keywords.size
+      assigns(:line_charts).size.should == Sample.from_graph_mapper_keywords.size
     end
 
   end
