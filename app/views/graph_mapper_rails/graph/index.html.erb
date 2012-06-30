@@ -1,6 +1,18 @@
 <% content_for :head do %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
   <%= javascript_include_tag @highcharts_js_path %>
+
+  <script type="text/javascript">
+    function add_comma(input){
+        var output = String(input);
+        var tmp = "";
+        while (output != (tmp = output.replace(/^([+-]?\d+)(\d\d\d)/,"$1,$2"))){
+          output = tmp;
+        }
+        return output;
+    }
+  </script>
+
 <% end %>
 
 <h1>Class : <%= @klass %></h1>
@@ -8,7 +20,7 @@
 <% @pie_charts.each_with_index do | chart, index | %>
   <%= high_chart("pie_#{index}", chart) do | c | %>
     <%=raw "options.plotOptions.pie.dataLabels.formatter = \
-           function() { return '<b>' + this.point.name + '</b>: ' + this.y + ' (' + Math.floor(this.percentage) + '%)' ;}" %>
+           function() { return '<b>' + this.point.name + '</b>: ' + add_comma(this.y) + ' (' + Math.floor(this.percentage) + '%)' ;}" %>
   <% end %>
 <% end %>
 
