@@ -25,6 +25,16 @@ module GraphMapperRails
 
       c.chart(:defaultSeriesType => "pie", :height => 250, :borderRadius => 1)
       c.plotOptions(:series => {:animation => false})
+      c.plotOptions(:pie => {
+         :animation => false,
+         :allowPointSelect => false,
+         :cursor => "pointer",
+         :dataLabels => {
+            :enabled => true,
+            :color => "black",
+            :style => { :font => "13px Trebuchet MS, Verdana, sans-serif" }
+          }
+      })
       c.series(:name => "pie", :yAxis => 0, :data => m.hash.to_a)
       charts << c
 

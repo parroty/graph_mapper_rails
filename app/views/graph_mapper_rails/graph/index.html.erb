@@ -6,7 +6,10 @@
 <h1>Class : <%= @klass %></h1>
 
 <% @pie_charts.each_with_index do | chart, index | %>
-  <%= high_chart("pie_#{index}", chart) %>
+  <%= high_chart("pie_#{index}", chart) do | c | %>
+    <%=raw "options.plotOptions.pie.dataLabels.formatter = \
+           function() { return '<b>' + this.point.name + '</b>: ' + this.y + ' (' + this.percentage + '%)' ;}" %>
+  <% end %>
 <% end %>
 
 <% @line_charts.each_with_index do | chart, index | %>
