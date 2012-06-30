@@ -6,6 +6,12 @@ GraphMapperRails::Initializer.setup do |config|
     mapper.num = 1 if record.title.include?(mapper.keyword)
   end
 
+  config.grouping.set_mapper do | mapper, record |
+    mapper.key = record.title
+    mapper.num = 1
+  end
+
+
   config.set_options do | options |
     options.span_type   = GraphMapper::SPAN_WEEKLY
     options.date_format = "%-m/%-d"

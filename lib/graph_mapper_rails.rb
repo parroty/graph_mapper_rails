@@ -12,12 +12,34 @@ module GraphMapperRails
     end
   end
 
+  class GroupingMapper
+    def initialize(config)
+      @config = config
+    end
+
+    def set_mapper(&block)
+      @block = block
+    end
+
+    def get_mapper(keyword = nil)
+      manager = @config.mapper_klass.find(:all, @conditions)
+      GraphMapper::GroupingMapper.new(manager) do | record |
+        rm = RecordMapper.new
+        rm.keyword = keyword
+        @block.call(rm, record)
+        rm.to_hash
+      end
+    end
+  end
+
   class Config
     attr_accessor :mapper_klass, :conditions, :duration, :use_average, :colors, :highcharts_js_path
+    attr_accessor :grouping
 
     def initialize
       @highcharts_js_path = "graph_mapper_rails/highcharts.js"
       @duration           = 1.month
+      @grouping           = GroupingMapper.new(self)
     end
 
     def set_options(&block)

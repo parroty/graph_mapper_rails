@@ -5,6 +5,10 @@
 
 <h1>Class : <%= @klass %></h1>
 
-<% @charts.each_with_index do | chart, index | %>
-  <%= high_chart("my_id#{index}", chart) %>
+<% @pie_charts.each_with_index do | chart, index | %>
+  <%= high_chart("pie_#{index}", chart) %>
+<% end %>
+
+<% @line_charts.each_with_index do | chart, index | %>
+  <%= high_chart("line_#{index}", chart) %>
 <% end %>

@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:parroty/graph_mapper.git
-  revision: 23ccfbbbc105f189d7bcbbe4f225ed1aae561edc
+  revision: a18a58be5b5aaea3729421ae3dfb7ce2f15c748b
   branch: master
   specs:
     graph_mapper (0.1.0)
@@ -60,7 +60,7 @@ GEM
       railties (~> 3.0)
       thor (~> 0.14)
     json (1.7.3)
-    lazy_high_charts (1.1.5)
+    lazy_high_charts (1.1.7)
       bundler (~> 1.0)
     mail (2.4.4)
       i18n (>= 0.4.0)
