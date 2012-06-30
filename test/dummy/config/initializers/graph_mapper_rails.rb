@@ -1,7 +1,7 @@
 GraphMapperRails::Initializer.setup do |config|
   config.mapper_klass = Sample
 
-  config.set_mapper do | mapper, record |
+  config.date.set_mapper do | mapper, record |
     mapper.key = record.created_at
     mapper.num = 1 if record.title.include?(mapper.keyword)
   end

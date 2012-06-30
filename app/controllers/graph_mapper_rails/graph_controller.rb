@@ -36,7 +36,7 @@ module GraphMapperRails
 
       if klass.respond_to?(:from_graph_mapper_keywords)
         klass.from_graph_mapper_keywords.each do | keyword |
-          m  = config.get_mapper(keyword)
+          m  = config.date.get_mapper(keyword)
           hc = GraphAdapter::Highchart.new({:title => keyword})
           c  = hc.get_charts
 
