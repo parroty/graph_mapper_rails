@@ -20,6 +20,13 @@ gem 'rails', '3.2.6'
 gem "lazy_high_charts", "~> 1.1.5"
 gem "graph_mapper", :git => 'git@github.com:parroty/graph_mapper.git', :branch => 'master'
 
+# group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier', '>= 1.0.3'
+  gem "twitter-bootstrap-rails", "~> 2.1.0"
+# end
+
 group :development, :test do
   gem "rspec", "~> 2.8.0"
   gem "rspec-rails", "~> 2.8.1"

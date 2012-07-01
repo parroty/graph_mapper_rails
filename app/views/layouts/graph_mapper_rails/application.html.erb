@@ -5,12 +5,22 @@
   <%= stylesheet_link_tag    "graph_mapper_rails/application", :media => "all" %>
   <%= javascript_include_tag "graph_mapper_rails/application" %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <%= yield :head %>
 </head>
 <body>
+  <%= render :partial => 'graph_mapper_rails/partial/header' %>
 
-<%= yield %>
+  <div class="container">
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+        <a class="close" data-dismiss="alert">×</a>
+        <%= msg %>
+      </div>
+    <% end %>
 
+    <%= yield %>
+  </div>
 </body>
 </html>
