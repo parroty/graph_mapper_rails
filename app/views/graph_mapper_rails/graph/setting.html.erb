@@ -1,0 +1,27 @@
+<h1>Setting</h1>
+<br/>
+
+<%= form_tag update_setting_path, :autocomplete => "off" do %>
+  <h3>Class</h3>
+  <%= @klass %>
+  <br/><br/>
+
+  <h3>Key</h3>
+  <%= select("setting", "key", @fields, { :include_blank => true }) %>
+  <br/>
+
+  <h3>Num</h3>
+
+  <%= radio_button_tag "num_group", 0, :checked => "checked" %> Specify Value:
+    <%= text_field_tag("value_text") %><br/>
+  <%= radio_button_tag "num_group", 1 %> Specify Method:
+    <%= select("value_select", "num", @methods, { :include_blank => true }) %>
+
+  <br/><br/>
+  <div class="actions">
+    <button type="submit" class="btn btn-primary">
+      Update
+    </button>
+  </div>
+
+<% end %>

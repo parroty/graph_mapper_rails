@@ -15,6 +15,18 @@ module GraphMapperRails
       @line_charts = get_line_charts(config, @klass)
     end
 
+    def setting
+      @klass   = Initializer.config.mapper_klass
+      @fields  = @klass.column_names
+
+      base_methods = ActiveRecord::Base.methods
+      @methods = @klass.methods.reject { | method | base_methods.include?(method) }
+    end
+
+    def update_setting
+      redirect_to setting_path
+    end
+
   private
     def get_pie_charts(config)
       charts = []
