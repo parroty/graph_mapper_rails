@@ -27,6 +27,8 @@ gem "graph_mapper", :git => 'git@github.com:parroty/graph_mapper.git', :branch =
   gem "twitter-bootstrap-rails", "~> 2.1.0"
 # end
 
+gem 'simple_form'
+
 group :development, :test do
   gem "rspec", "~> 2.8.0"
   gem "rspec-rails", "~> 2.8.1"

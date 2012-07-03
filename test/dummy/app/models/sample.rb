@@ -1,5 +1,5 @@
 class Sample < ActiveRecord::Base
-  attr_accessible :description, :title
+  attr_accessible :description, :title, :value
 
   def self.from_graph_mapper_keywords
     ["aaa", "title", "hoge"]
