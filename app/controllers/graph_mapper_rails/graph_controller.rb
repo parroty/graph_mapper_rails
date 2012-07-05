@@ -24,7 +24,7 @@ module GraphMapperRails
     end
 
     def update_setting
-      redirect_to setting_path
+      redirect_to graph_setting_path
     end
 
   private
