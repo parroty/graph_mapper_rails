@@ -19,7 +19,7 @@
   <h3>Value:</h3>
   <%= radio_button_tag "type", 0, @radio_options[0] %> Select by field:
   <br/>
-    <b>Date</b> <%= select("setting", "key", @fields, { :include_blank => true, :selected => @selected_items[:key]}) %><br/>
+    <b>Date</b> <%= select("setting", "date", @fields, { :include_blank => true, :selected => @selected_items[:date]}) %><br/>
     <b>Value</b> <%= select("setting", "value", @fields, { :include_blank => true, :selected => @selected_items[:value] }) %><br/>
     <b>Keyword</b> <%= select("setting", "keyword", @fields, { :include_blank => true, :selected => @selected_items[:keyword] }) %>
   <br/><br/>

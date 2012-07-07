@@ -13,16 +13,10 @@ class Sample < ActiveRecord::Base
     }
   end
 
-  def self.mapper_hash(record, keyword)
-    key   = record.created_at
-    value = record.value if record.title.include?(keyword)
-    {:key => key, :value => value || 0 }
+  def self.mapper_hash(record)
+    date    = record.created_at
+    value   = record.value
+    keyword = record.title
+    {:date => date, :value => value || 0, :keyword => keyword }
   end
-
-  def self.grouping_mapper_hash(record, keyword)
-    key   = record.created_at
-    value = 1 if record.title.include?(mapper.keyword)
-    {:key => key, :value => value || 0 }
-  end
-
 end

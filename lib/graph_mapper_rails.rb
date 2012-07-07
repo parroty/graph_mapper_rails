@@ -21,13 +21,10 @@ module GraphMapperRails
       @block = block
     end
 
-    def get_mapper(keyword = nil)
+    def get_mapper
       manager = @config.mapper_klass.find(:all, @conditions)
       GraphMapper::GroupingMapper.new(manager) do | record |
-        rm = RecordMapper.new
-        rm.keyword = keyword
-        @block.call(rm, record)
-        rm.to_hash
+        Setting.get_grouping_mapper_hash(@config.mapper_klass, record)
       end
     end
   end

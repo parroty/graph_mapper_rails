@@ -16,19 +16,37 @@ module GraphMapperRails
       find_by_key(klass, key).try(:destroy)
     end
 
+
+    def self.get_grouping_mapper_hash(klass, record)
+      h = get_hash(klass, record)
+      {:key => h[:keyword], :value => h[:value]}
+    end
+
     def self.get_mapper_hash(klass, record, filter_keyword)
+      h = get_hash(klass, record)
+      value = h[:keyword].include?(filter_keyword) ? h[:value] : 0
+      {:key => h[:date], :value => value }
+    end
+
+
+    def self.get_hash(klass, record)
       type = get_option(klass, "type").to_i
       if type == 0
-        date    = record.send(get_option(klass, "key"))
-        keyword = record.send(get_option(klass, "keyword"))
-        if keyword.include?(filter_keyword)
-          value = record.send(get_option(klass, "value"))
+        date    = record.send(get_option(klass, "date"))
+        if get_option(klass, "value").empty?
+          value = 1
         else
-          value = 0
+          value = record.send(get_option(klass, "value"))
         end
-        {:key => date, :value => value || 0 }
+        if get_option(klass, "keyword").empty?
+          keyword = ""
+        else
+          keyword = record.send(get_option(klass, "keyword"))
+        end
+
+        {:date => date, :value => value || 0, :keyword => keyword }
       elsif type == 1
-        klass.send(get_option(klass, "method"), record, filter_keyword)
+        klass.send(get_option(klass, "method"), record)
       else
         raise "invalid type"
       end

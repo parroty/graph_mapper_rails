@@ -23,7 +23,7 @@ module GraphMapperRails
       @methods = @klass.methods.reject { | method | base_methods.include?(method) }
 
       @selected_items = {
-        :key     => Setting.get_option(@klass, "key"),
+        :date    => Setting.get_option(@klass, "date"),
         :value   => Setting.get_option(@klass, "value"),
         :keyword => Setting.get_option(@klass, "keyword"),
         :method  => Setting.get_option(@klass, "method")
@@ -35,7 +35,7 @@ module GraphMapperRails
 
     def update_setting
       klass = Initializer.config.mapper_klass
-      Setting.set_option(klass, "key", params[:setting][:key])
+      Setting.set_option(klass, "date", params[:setting][:date])
       Setting.set_option(klass, "value", params[:setting][:value])
       Setting.set_option(klass, "keyword", params[:setting][:keyword])
       Setting.set_option(klass, "method", params[:setting][:method])
