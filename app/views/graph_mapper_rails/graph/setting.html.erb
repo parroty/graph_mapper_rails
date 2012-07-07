@@ -16,22 +16,16 @@
   <%= @klass %>
   <br/><br/>
 
-  <h3>Key:</h3>
-  <%= select("setting", "key", @fields, { :include_blank => true, :selected => @field_key}) %>
-  <br/><br/>
-
   <h3>Value:</h3>
-  <%= radio_button_tag "type", 0, @radio_options[0] %> Select Field:
+  <%= radio_button_tag "type", 0, @radio_options[0] %> Select by field:
   <br/>
-    <%= select("value0", "value0", @fields, { :include_blank => true, :selected => @value_options[0] }) %>
+    <b>Date</b> <%= select("setting", "key", @fields, { :include_blank => true, :selected => @selected_items[:key]}) %><br/>
+    <b>Value</b> <%= select("setting", "value", @fields, { :include_blank => true, :selected => @selected_items[:value] }) %><br/>
+    <b>Keyword</b> <%= select("setting", "keyword", @fields, { :include_blank => true, :selected => @selected_items[:keyword] }) %>
+  <br/><br/>
+  <%= radio_button_tag "type", 1, @radio_options[1] %> Select by method:
   <br/>
-  <%= radio_button_tag "type", 1, @radio_options[1] %> Specify Value:
-  <br/>
-    <%= text_field_tag("value1", @value_options[1]) %>
-  <br/>
-  <%= radio_button_tag "type", 2, @radio_options[2] %> Select Method:
-  <br/>
-    <%= select("value2", "value2", @methods, { :include_blank => true, :selected => @value_options[2] }) %>
+    <b>Method</b> <%= select("setting", "method", @methods, { :include_blank => true, :selected => @selected_items[:method] }) %>
 
   <br/><br/>
   <div class="actions">

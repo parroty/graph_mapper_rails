@@ -45,10 +45,7 @@ module GraphMapperRails
       manager = @config.mapper_klass.find(:all, @conditions)
 
       GraphMapper::Mapper.new(manager, Date.today - @config.duration, Date.today, @config.option_mapper.to_hash) do | record |
-        rm = RecordMapper.new
-        rm.keyword = keyword
-        @block.call(rm, record)
-        rm.to_hash
+        Setting.get_mapper_hash(@config.mapper_klass, record, keyword)
       end
     end
   end

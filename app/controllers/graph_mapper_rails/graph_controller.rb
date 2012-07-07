@@ -22,33 +22,25 @@ module GraphMapperRails
       base_methods = ActiveRecord::Base.methods
       @methods = @klass.methods.reject { | method | base_methods.include?(method) }
 
-      @field_key = Setting.get_option(@klass, "key")
-      type       = Setting.get_option(@klass, "type")
-      @radio_options = [nil] * 3
-      @value_options = [nil] * 3
-      @radio_options[type.to_i] = { :checked => true }
-      @value_options[type.to_i] = Setting.get_option(@klass, "value")
+      @selected_items = {
+        :key     => Setting.get_option(@klass, "key"),
+        :value   => Setting.get_option(@klass, "value"),
+        :keyword => Setting.get_option(@klass, "keyword"),
+        :method  => Setting.get_option(@klass, "method")
+      }
+
+      @radio_options = [nil] * 2
+      @radio_options[Setting.get_option(@klass, "type").to_i] = { :checked => true }
     end
 
     def update_setting
       klass = Initializer.config.mapper_klass
       Setting.set_option(klass, "key", params[:setting][:key])
+      Setting.set_option(klass, "value", params[:setting][:value])
+      Setting.set_option(klass, "keyword", params[:setting][:keyword])
+      Setting.set_option(klass, "method", params[:setting][:method])
       Setting.set_option(klass, "type" , params[:type])
-
-      case params[:type]
-      when "0"
-        value = params[:value0][:value0]
-      when "1"
-        value = params[:value1]
-      when "2"
-        value = params[:value2][:value2]
-      else
-        raise "unknown value type"
-      end
-
-      Setting.set_option(klass, "value", value)
       flash[:notice] = "Settings are successfully updated."
-
       redirect_to graph_setting_path
     end
 
