@@ -21,7 +21,7 @@
   <br/><br/>
 
   <h3>Value:</h3>
-  <%= radio_button_tag "num_group", 0, :checked => "checked" %> Select Value:
+  <%= radio_button_tag "num_group", 0, :checked => "checked" %> Select Field:
   <br/>
     <%= select("setting", "key", @fields, { :include_blank => true }) %>
   <br/>
@@ -29,7 +29,7 @@
   <br/>
     <%= text_field_tag("value_text") %>
   <br/>
-  <%= radio_button_tag "num_group", 2 %> Specify Method:
+  <%= radio_button_tag "num_group", 2 %> Select Method:
   <br/>
     <%= select("value_select", "num", @methods, { :include_blank => true }) %>
 
