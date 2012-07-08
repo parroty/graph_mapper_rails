@@ -1,0 +1,12 @@
+
+
+<% pie_charts.each_with_index do | chart, index | %>
+  <%= high_chart("pie_#{index}", chart) do | c | %>
+    <%=raw "options.plotOptions.pie.dataLabels.formatter = \
+           function() { return '<b>' + this.point.name + '</b>: ' + add_comma(this.y) + ' (' + Math.floor(this.percentage) + '%)' ;}" %>
+  <% end %>
+<% end %>
+
+<% line_charts.each_with_index do | chart, index | %>
+  <%= high_chart("line_#{index}", chart) %>
+<% end %>

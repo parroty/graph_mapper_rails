@@ -7,10 +7,7 @@ module GraphMapperRails
   class GraphController < ApplicationController
     def index
       config = Initializer.config
-
-      @highcharts_js_path = config.highcharts_js_path
       @klass = config.mapper_klass
-
       @pie_charts  = get_pie_charts(config)
       @line_charts = get_line_charts(config, @klass)
     end
@@ -31,6 +28,10 @@ module GraphMapperRails
 
       @radio_options = [nil] * 2
       @radio_options[Setting.get_option(@klass, "type").to_i] = { :checked => true }
+
+      config = Initializer.config
+      @pie_charts  = get_pie_charts(config)
+      @line_charts = get_line_charts(config, @klass)
     end
 
     def update_setting
