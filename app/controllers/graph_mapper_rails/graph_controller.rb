@@ -6,10 +6,8 @@ require 'graph_adapter/highchart'
 module GraphMapperRails
   class GraphController < ApplicationController
     def index
-      config = Initializer.config
-      @klass = config.mapper_klass
-      @pie_charts  = get_pie_charts(config)
-      @line_charts = get_line_charts(config, @klass)
+      @klass = Initializer.config.mapper_klass
+      @pie_charts, @line_charts = get_graph(@klass)
     end
 
     def setting
@@ -23,15 +21,16 @@ module GraphMapperRails
         :date    => Setting.get_option(@klass, "date"),
         :value   => Setting.get_option(@klass, "value"),
         :keyword => Setting.get_option(@klass, "keyword"),
-        :method  => Setting.get_option(@klass, "method")
+        :method  => Setting.get_option(@klass, "method"),
+        :span    => Setting.get_option(@klass, "span"),
+        :date_format => Setting.get_option(@klass, "date_format"),
+        :moving_average_length => Setting.get_option(@klass, "moving_average_length")
       }
 
       @radio_options = [nil] * 2
       @radio_options[Setting.get_option(@klass, "type").to_i] = { :checked => true }
 
-      config = Initializer.config
-      @pie_charts  = get_pie_charts(config)
-      @line_charts = get_line_charts(config, @klass)
+      @pie_charts, @line_charts = get_graph(@klass)
     end
 
     def update_setting
@@ -41,11 +40,40 @@ module GraphMapperRails
       Setting.set_option(klass, "keyword", params[:setting][:keyword])
       Setting.set_option(klass, "method", params[:setting][:method])
       Setting.set_option(klass, "type" , params[:type])
+
+      Setting.set_option(klass, "span" , params[:date_setting][:span])
+      Setting.set_option(klass, "date_format" , params[:date_format])
+      Setting.set_option(klass, "moving_average_length" , params[:moving_average_length])
+
       flash[:notice] = "Settings are successfully updated."
       redirect_to graph_setting_path
     end
 
   private
+    def get_graph(klass)
+      config = Initializer.config
+
+      case Setting.get_option(@klass, "span")
+      when "Monthly"
+        span_type = GraphMapper::SPAN_MONTHLY
+      when "Weekly"
+        span_type = GraphMapper::SPAN_WEEKLY
+      when "Daily"
+        span_type = GraphMapper::SPAN_DAILY
+      end
+
+      config.set_options do | options |
+        options.span_type = span_type
+        options.date_format = Setting.get_option(@klass, "date_format")
+        options.moving_average_length = Setting.get_option(@klass, "moving_average_length").to_i
+      end
+
+      pie_charts  = get_pie_charts(config)
+      line_charts = get_line_charts(config, klass)
+
+      [pie_charts, line_charts]
+    end
+
     def get_pie_charts(config)
       charts = []
 

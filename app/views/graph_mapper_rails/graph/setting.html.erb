@@ -9,29 +9,47 @@
     <pre>Setup parameters for drawing graphs.</pre>
     <br/>
 
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a href="#">Home1</a>
-      </li>
-      <li><a href="#">Home2</a></li>
-      <li><a href="#">Home3</a></li>
-    </ul>
+    <h3>Class:</h3>
+    <%= @klass %>
+    <br/><br/>
 
     <%= form_tag graph_update_setting_path, :autocomplete => "off" do %>
-      <h3>Class:</h3>
-      <%= @klass %>
-      <br/><br/>
+      <div class="tabbable tabs-below">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#A" data-toggle="tab">Records</a></li>
+          <li><a href="#B" data-toggle="tab">Dates</a></li>
+          <li><a href="#C" data-toggle="tab">Section 3</a></li>
+        </ul>
 
-      <h3>Value:</h3>
-      <%= radio_button_tag "type", 0, @radio_options[0] %> Select by field:
-      <br/>
-        <b>Date</b> <%= select("setting", "date", @fields, { :include_blank => true, :selected => @selected_items[:date]}) %><br/>
-        <b>Value</b> <%= select("setting", "value", @fields, { :include_blank => true, :selected => @selected_items[:value] }) %><br/>
-        <b>Keyword</b> <%= select("setting", "keyword", @fields, { :include_blank => true, :selected => @selected_items[:keyword] }) %>
-      <br/><br/>
-      <%= radio_button_tag "type", 1, @radio_options[1] %> Select by method:
-      <br/>
-        <b>Method</b> <%= select("setting", "method", @methods, { :include_blank => true, :selected => @selected_items[:method] }) %>
+        <div class="tab-content" style="padding-left: 15px; padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+          <div class="tab-pane active" id="A">
+            <%= radio_button_tag "type", 0, @radio_options[0] %> Select by field:
+            <br/>
+              <b>Date</b> <%= select("setting", "date", @fields, { :include_blank => true, :selected => @selected_items[:date]}) %><br/>
+              <b>Value</b> <%= select("setting", "value", @fields, { :include_blank => true, :selected => @selected_items[:value] }) %><br/>
+              <b>Keyword</b> <%= select("setting", "keyword", @fields, { :include_blank => true, :selected => @selected_items[:keyword] }) %>
+            <br/><br/>
+            <%= radio_button_tag "type", 1, @radio_options[1] %> Select by method:
+            <br/>
+              <b>Method</b> <%= select("setting", "method", @methods, { :include_blank => true, :selected => @selected_items[:method] }) %>
+          </div>
+
+          <div class="tab-pane" id="B">
+            <b>Span</b>
+            <%= select("date_setting", "span", ["Daily", "Weekly", "Monthly"], { :selected => @selected_items[:span] })%>
+            <br/>
+            <b>Format</b>
+            <%= text_field_tag :date_format, @selected_items[:date_format] %>
+            <br/>
+            <b>Moving Average Length</b>
+            <%= text_field_tag "moving_average_length", @selected_items[:moving_average_length] %>
+          </div>
+
+          <div class="tab-pane" id="C">
+            <p>TBD</p>
+          </div>
+        </div>
+      </div> <!-- /tabbable -->
 
       <br/><br/>
       <div class="actions">
@@ -42,6 +60,7 @@
     <% end %>
   </div>
   <div class="span8">
+    <h2>Graph</h2>
     <%= render :partial => 'graph_mapper_rails/partial/graph', :locals => {:pie_charts => @pie_charts, :line_charts => @line_charts} %>
   </div>
 </div>
