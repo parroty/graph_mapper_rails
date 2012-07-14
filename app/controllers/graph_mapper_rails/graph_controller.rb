@@ -17,13 +17,17 @@ module GraphMapperRails
       base_methods = ActiveRecord::Base.methods
       @methods = @klass.methods.reject { | method | base_methods.include?(method) }
 
+      @duration_types = ["month(s)", "week(s)", "day(s)"]
+
       @selected_items = {
         :date    => Setting.get_option(@klass, "date"),
         :value   => Setting.get_option(@klass, "value"),
         :keyword => Setting.get_option(@klass, "keyword"),
         :method  => Setting.get_option(@klass, "method"),
         :span    => Setting.get_option(@klass, "span"),
-        :date_format => Setting.get_option(@klass, "date_format"),
+        :date_format   => Setting.get_option(@klass, "date_format"),
+        :duration      => Setting.get_option(@klass, "duration"),
+        :duration_type => Setting.get_option(@klass, "duration_type"),
         :moving_average_length => Setting.get_option(@klass, "moving_average_length")
       }
 
@@ -44,6 +48,8 @@ module GraphMapperRails
       Setting.set_option(klass, "span" , params[:date_setting][:span])
       Setting.set_option(klass, "date_format" , params[:date_format])
       Setting.set_option(klass, "moving_average_length" , params[:moving_average_length])
+      Setting.set_option(klass, "duration" , params[:duration])
+      Setting.set_option(klass, "duration_type" , params[:setting][:duration_type])
 
       flash[:notice] = "Settings are successfully updated."
       redirect_to graph_setting_path
@@ -62,11 +68,22 @@ module GraphMapperRails
         span_type = GraphMapper::SPAN_DAILY
       end
 
+      setting_duration = Setting.get_option(@klass, "duration").to_i
+      case Setting.get_option(@klass, "duration_type")
+      when "month(s)"
+        duration = setting_duration.months
+      when "week(s)"
+        duration = setting_duration.weeks
+      when "day(s)"
+        duration = setting_duration.days
+      end
+
       config.set_options do | options |
         options.span_type = span_type
         options.date_format = Setting.get_option(@klass, "date_format")
         options.moving_average_length = Setting.get_option(@klass, "moving_average_length").to_i
       end
+      config.duration = duration
 
       pie_charts  = get_pie_charts(config)
       line_charts = get_line_charts(config, klass)

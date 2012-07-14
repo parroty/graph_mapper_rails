@@ -9,10 +9,11 @@
     <pre>Setup parameters for drawing graphs.</pre>
     <br/>
 
-    <h3>Class:</h3>
+    <h3>Class Name</h3>
     <%= @klass %>
     <br/><br/>
 
+    <h3>Parameters</h3><br/>
     <%= form_tag graph_update_setting_path, :autocomplete => "off" do %>
       <div class="tabbable tabs-below">
         <ul class="nav nav-tabs">
@@ -41,8 +42,13 @@
             <b>Format</b>
             <%= text_field_tag :date_format, @selected_items[:date_format] %>
             <br/>
+            <b>Duration</b>
+            <%= text_field_tag "duration", @selected_items[:duration], :size => 10, :maxlength => 10, :style => "width:auto;" %>
+            <%= select("setting", "duration_type", @duration_types, {:selected => @selected_items[:duration_type] }, :style => "width:auto;") %>
+            <br/>
             <b>Moving Average Length</b>
-            <%= text_field_tag "moving_average_length", @selected_items[:moving_average_length] %>
+            <%= text_field_tag "moving_average_length", @selected_items[:moving_average_length],
+                               :size => 10, :maxlength => 10, :style => "width:auto;" %>
           </div>
 
           <div class="tab-pane" id="C">
