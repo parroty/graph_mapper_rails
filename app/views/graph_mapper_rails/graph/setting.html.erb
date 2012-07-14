@@ -1,5 +1,20 @@
 <% content_for :head do %>
   <%= javascript_include_tag GraphMapperRails::Initializer.config.highcharts_js_path %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var tab_index = <%= @selected_tab_index || "1" %>;
+
+    $('#tab_header_' + tab_index).addClass('active');
+    $('#tab_' + tab_index).addClass("active");
+
+    $('li a').click(function(){
+      var clicked_tab_index = $(this).data('index');
+      $('#selected_tab_index')[0].value = clicked_tab_index;
+    });
+  });
+</script>
+
 <% end %>
 
 <div class="row">
@@ -15,15 +30,17 @@
 
     <h3>Parameters</h3><br/>
     <%= form_tag graph_update_setting_path, :autocomplete => "off" do %>
+      <%= hidden_field_tag 'selected_tab_index', '1' %>
+
       <div class="tabbable tabs-below">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#A" data-toggle="tab">Records</a></li>
-          <li><a href="#B" data-toggle="tab">Dates</a></li>
-          <li><a href="#C" data-toggle="tab">Section 3</a></li>
+          <li id="tab_header_1"><a href="#tab_1" data-toggle="tab" data-index="1">Records</a></li>
+          <li id="tab_header_2"><a href="#tab_2" data-toggle="tab" data-index="2">Dates</a></li>
+          <li id="tab_header_3"><a href="#tab_3" data-toggle="tab" data-index="3">Section 3</a></li>
         </ul>
 
         <div class="tab-content" style="padding-left: 15px; padding-bottom: 9px; border-bottom: 1px solid #ddd;">
-          <div class="tab-pane active" id="A">
+          <div class="tab-pane" id="tab_1">
             <%= radio_button_tag "type", 0, @radio_options[0] %> Select by field:
             <br/>
               <b>Date</b> <%= select("setting", "date", @fields, { :include_blank => true, :selected => @selected_items[:date]}) %><br/>
@@ -35,7 +52,7 @@
               <b>Method</b> <%= select("setting", "method", @methods, { :include_blank => true, :selected => @selected_items[:method] }) %>
           </div>
 
-          <div class="tab-pane" id="B">
+          <div class="tab-pane" id="tab_2">
             <b>Span</b>
             <%= select("date_setting", "span", ["Daily", "Weekly", "Monthly"], { :selected => @selected_items[:span] })%>
             <br/>
@@ -51,7 +68,7 @@
                                :size => 10, :maxlength => 10, :style => "width:auto;" %>
           </div>
 
-          <div class="tab-pane" id="C">
+          <div class="tab-pane" id="tab_3">
             <p>TBD</p>
           </div>
         </div>

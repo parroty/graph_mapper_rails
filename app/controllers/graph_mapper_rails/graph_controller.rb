@@ -34,6 +34,8 @@ module GraphMapperRails
       @radio_options = [nil] * 2
       @radio_options[Setting.get_option(@klass, "type").to_i] = { :checked => true }
 
+      @selected_tab_index = params[:selected_tab_index]
+
       @pie_charts, @line_charts = get_graph(@klass)
     end
 
@@ -52,7 +54,7 @@ module GraphMapperRails
       Setting.set_option(klass, "duration_type" , params[:setting][:duration_type])
 
       flash[:notice] = "Settings are successfully updated."
-      redirect_to graph_setting_path
+      redirect_to :action => "setting", :selected_tab_index => params[:selected_tab_index]
     end
 
   private
