@@ -9,7 +9,7 @@ module GraphMapperRails
     end
 
     def save
-      @record_hash.each { | key, record | record.save }
+      @record_hash.each { | key, record | record.save if record.changed? }
     end
 
     def get_option(key)
