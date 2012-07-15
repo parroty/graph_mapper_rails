@@ -42,29 +42,50 @@ module GraphMapperRails
 
 
     def get_hash(record)
-      type = get_option("type").to_i
-      if type == 0
-        date = record.send(get_option("date"))
-        if get_option("value").empty?
-          value = 1
-        else
-          value = record.send(get_option("value"))
-        end
-        if get_option("keyword").empty?
-          keyword = ""
-        else
-          keyword = record.send(get_option("keyword"))
-        end
-
-        {:date => date, :value => value || 0, :keyword => keyword }
-      elsif type == 1
-        @klass.send(get_option("method"), record)
+      case get_option("type").to_i
+      when Setting::TYPE_SELECT_BY_FIELD
+        get_hash_value_by_field(record)
+      when Setting::TYPE_SELECT_BY_METHOD
+        get_hash_value_by_method(record)
       else
         raise "invalid type"
       end
     end
 
   private
+    def get_hash_value_by_field(record)
+      date    = record.send(get_option("date"))
+      value   = get_record_value(record, get_option("value"))
+      keyword = get_record_keyword(record, get_option("keyword"))
+
+      {:date => date, :value => value, :keyword => keyword }
+    end
+
+    def get_record_value(record, option)
+      if option.empty?
+        1
+      else
+        begin
+          Integer(record.send(option))
+        rescue
+          1
+        end
+      end
+    end
+
+    def get_record_keyword(record, option)
+      if option.empty?
+        ""
+      else
+        record.send(option).to_s
+      end
+    end
+
+    def get_hash_value_by_method(record)
+      method_name = get_option("method")
+      @klass.send(method_name, record)
+    end
+
     def get_key(key)
       [@klass, key].join(".")
     end

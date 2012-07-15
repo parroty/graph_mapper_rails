@@ -30,7 +30,7 @@
 
     <h3>Parameters</h3><br/>
     <%= form_tag graph_update_setting_path, :autocomplete => "off" do %>
-      <%= hidden_field_tag 'selected_tab_index', @selected_tab_index %>
+      <%= hidden_field_tag 'selected_tab_index', @selected_tab_index || "1" %>
 
       <div class="tabbable tabs-below">
         <ul class="nav nav-tabs">
@@ -41,13 +41,13 @@
 
         <div class="tab-content" style="padding-left: 15px; padding-bottom: 9px; border-bottom: 1px solid #ddd;">
           <div class="tab-pane" id="tab_1">
-            <%= radio_button_tag "type", 0, @radio_options[0] %> Select by field:
+            <%= radio_button_tag "type", GraphMapperRails::Setting::TYPE_SELECT_BY_FIELD, @radio_options[0] %> Select by field:
             <br/>
-              <b>Date</b> <%= select("setting", "date", @fields, { :include_blank => true, :selected => @selected_items[:date]}) %><br/>
+              <b>Date</b> <%= select("setting", "date", @fields, { :selected => @selected_items[:date]}) %><br/>
               <b>Value</b> <%= select("setting", "value", @fields, { :include_blank => true, :selected => @selected_items[:value] }) %><br/>
               <b>Keyword</b> <%= select("setting", "keyword", @fields, { :include_blank => true, :selected => @selected_items[:keyword] }) %>
             <br/><br/>
-            <%= radio_button_tag "type", 1, @radio_options[1] %> Select by method:
+            <%= radio_button_tag "type", GraphMapperRails::Setting::TYPE_SELECT_BY_METHOD, @radio_options[1] %> Select by method:
             <br/>
               <b>Method</b> <%= select("setting", "method", @methods, { :include_blank => true, :selected => @selected_items[:method] }) %>
           </div>
