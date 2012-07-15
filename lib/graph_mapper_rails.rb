@@ -1,4 +1,5 @@
 require "graph_mapper_rails/engine"
+require 'setting_loader'
 
 module GraphMapperRails
   class Initializer
@@ -22,9 +23,11 @@ module GraphMapperRails
     end
 
     def get_mapper
+      loader  = SettingLoader.new(@config.mapper_klass)
       manager = @config.mapper_klass.find(:all, @conditions)
+
       GraphMapper::GroupingMapper.new(manager) do | record |
-        Setting.get_grouping_mapper_hash(@config.mapper_klass, record)
+        loader.get_grouping_mapper_hash(record)
       end
     end
   end
@@ -39,10 +42,11 @@ module GraphMapperRails
     end
 
     def get_mapper(keyword = nil)
+      loader  = SettingLoader.new(@config.mapper_klass)
       manager = @config.mapper_klass.find(:all, @conditions)
 
       GraphMapper::Mapper.new(manager, Date.today - @config.duration, Date.today, @config.option_mapper.to_hash) do | record |
-        Setting.get_mapper_hash(@config.mapper_klass, record, keyword)
+        loader.get_mapper_hash(record, keyword)
       end
     end
   end
