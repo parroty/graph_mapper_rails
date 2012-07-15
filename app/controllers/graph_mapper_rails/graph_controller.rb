@@ -21,20 +21,11 @@ module GraphMapperRails
       @duration_types = ["month(s)", "week(s)", "day(s)"]
 
       loader = SettingLoader.new(@klass)
-      @selected_items = {
-        :date    => loader.get_option("date"),
-        :value   => loader.get_option("value"),
-        :keyword => loader.get_option("keyword"),
-        :method  => loader.get_option("method"),
-        :span    => loader.get_option("span"),
-        :date_format   => loader.get_option("date_format"),
-        :duration      => loader.get_option("duration"),
-        :duration_type => loader.get_option("duration_type"),
-        :moving_average_length => loader.get_option("moving_average_length")
-      }
+      @selected_items =
+         loader.to_hash([:date, :value, :keyword, :method, :span, :date_format, :duration, :duration_type, :moving_average_length])
 
       @radio_options = [nil] * 2
-      @radio_options[loader.get_option("type").to_i] = { :checked => true }
+      @radio_options[loader["type"].to_i] = { :checked => true }
 
       @selected_tab_index = params[:selected_tab_index]
 
@@ -45,17 +36,16 @@ module GraphMapperRails
       klass = Initializer.config.mapper_klass
 
       loader = SettingLoader.new(klass)
-      loader.set_option("date", params[:setting][:date])
-      loader.set_option("value", params[:setting][:value])
-      loader.set_option("keyword", params[:setting][:keyword])
-      loader.set_option("method", params[:setting][:method])
-      loader.set_option("type" , params[:type])
-
-      loader.set_option("span" , params[:date_setting][:span])
-      loader.set_option("date_format" , params[:date_format])
-      loader.set_option("moving_average_length" , params[:moving_average_length])
-      loader.set_option("duration" , params[:duration])
-      loader.set_option("duration_type" , params[:setting][:duration_type])
+      loader["date"]                  = params[:setting][:date]
+      loader["value"]                 = params[:setting][:value]
+      loader["keyword"]               = params[:setting][:keyword]
+      loader["method"]                = params[:setting][:method]
+      loader["type"]                  = params[:type]
+      loader["span"]                  = params[:date_setting][:span]
+      loader["date_format"]           = params[:date_format]
+      loader["moving_average_length"] = params[:moving_average_length]
+      loader["duration"]              = params[:duration]
+      loader["duration_type"]         = params[:setting][:duration_type]
       loader.save
 
       flash[:notice] = "Settings are successfully updated."
@@ -68,7 +58,7 @@ module GraphMapperRails
 
       loader = SettingLoader.new(@klass)
 
-      case loader.get_option("span")
+      case loader["span"]
       when "Monthly"
         span_type = GraphMapper::SPAN_MONTHLY
       when "Weekly"
@@ -77,8 +67,8 @@ module GraphMapperRails
         span_type = GraphMapper::SPAN_DAILY
       end
 
-      setting_duration = loader.get_option("duration").to_i
-      case loader.get_option("duration_type")
+      setting_duration = loader["duration"].to_i
+      case loader["duration_type"]
       when "month(s)"
         duration = setting_duration.months
       when "week(s)"
@@ -89,8 +79,8 @@ module GraphMapperRails
 
       config.set_options do | options |
         options.span_type = span_type
-        options.date_format = loader.get_option("date_format")
-        options.moving_average_length = loader.get_option("moving_average_length").to_i
+        options.date_format = loader["date_format"]
+        options.moving_average_length = loader["moving_average_length"].to_i
       end
       config.duration = duration
 

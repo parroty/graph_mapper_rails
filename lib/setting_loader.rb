@@ -12,6 +12,22 @@ module GraphMapperRails
       @record_hash.each { | key, record | record.save if record.changed? }
     end
 
+    def to_hash(options)
+      hash = {}
+      options.each do | option |
+        hash[option] = self[option]
+      end
+      hash
+    end
+
+    def [](key)
+      get_option(key)
+    end
+
+    def []=(key, value)
+      set_option(key, value)
+    end
+
     def get_option(key)
       @record_hash[get_key(key)].try(:value)
     end
