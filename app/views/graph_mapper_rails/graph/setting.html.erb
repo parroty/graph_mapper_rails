@@ -30,7 +30,7 @@
 
     <h3>Parameters</h3><br/>
     <%= form_tag graph_update_setting_path, :autocomplete => "off" do %>
-      <%= hidden_field_tag 'selected_tab_index', '1' %>
+      <%= hidden_field_tag 'selected_tab_index', @selected_tab_index %>
 
       <div class="tabbable tabs-below">
         <ul class="nav nav-tabs">
